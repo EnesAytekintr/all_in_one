@@ -1,0 +1,32 @@
+# --- Python & Virtual Environment ---
+.venv/
+venv/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# --- dbt ---
+target/
+dbt_packages/
+logs/
+*.log
+
+profiles.yml
+*.user.yml
+.env
+*.env
+
+model_files/
+*.csv
+*.jsonl
+*.parquet
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
