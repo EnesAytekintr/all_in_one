@@ -1,0 +1,7 @@
+sources:
+  - name: hf_models
+    schema: raw
+    description: "This source contains data related to Hugging Face models."
+    tables:
+      - name: hf_models_raw 
+        identifier: models_raw

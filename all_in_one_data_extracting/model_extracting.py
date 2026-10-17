@@ -27,7 +27,7 @@ FIELDS = [
 
 EXPAND = [
     "author", "createdAt", "lastModified", "downloads", "likes",
-    "pipeline_tag", "library_name", "gated", "private", "tags"
+    "pipeline_tag", "library_name", "gated", "private", "tags", "cardData"
 ]
 
 TOKEN = os.getenv("TOKEN")
