@@ -1,0 +1,305 @@
+models:
+  - name: mart_tag_popularity
+    description: "Aggregated model usage and engagement metrics for each tag."
+    columns:
+      - name: pk_tag_popularity_id
+        description: "Surrogate primary key generated from the tag."
+        tests:
+          - not_null
+          - unique
+
+      - name: tag
+        description: "Model tag."
+        tests:
+          - not_null
+          - unique
+
+      - name: total_models_using_tag
+        description: "Number of distinct models carrying the tag."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: total_downloads
+        description: "Combined downloads for models carrying the tag."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: total_tag_likes
+        description: "Combined likes for models carrying the tag."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: avg_downloads_per_model
+        description: "Average downloads per model carrying the tag."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: market_share_percentage
+        description: "Percentage of tag usage relative to all tag usage."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 100
+
+      - name: rank_by_downloads
+        description: "Rank of the tag by combined model downloads."
+        tests:
+          - not_null
+          - unique
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+  - name: mart_license_distribuiton
+    description: "Model counts, engagement, and gated access metrics grouped by license."
+    columns:
+      - name: pk_license_distribution_id
+        description: "Surrogate primary key generated from the license."
+        tests:
+          - not_null
+          - unique
+
+      - name: license
+        description: "Model license."
+        tests:
+          - not_null
+
+      - name: total_models
+        description: "Number of distinct models using the license."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: total_downloads
+        description: "Combined downloads for models using the license."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: total_likes
+        description: "Combined likes for models using the license."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: avg_downloads_per_model
+        description: "Average downloads per model using the license."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: gated_models_count
+        description: "Number of models with gated access for the license."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: gated_percentage
+        description: "Percentage of models with gated access for the license."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 100
+
+      - name: market_share_percentage
+        description: "Percentage of all models represented by the license."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 100
+
+      - name: rank_by_downloads
+        description: "Rank of the license by combined model downloads."
+        tests:
+          - not_null
+          - unique
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+  - name: mart_pipeline_overview
+    description: "Model counts and engagement metrics grouped by pipeline category."
+    columns:
+      - name: pk_pipeline_overview_id
+        description: "Surrogate primary key generated from the pipeline tag."
+        tests:
+          - not_null
+          - unique
+
+      - name: pipeline_tag
+        description: "Pipeline category."
+        tests:
+          - not_null
+          - unique
+
+      - name: dominant_library
+        description: "Most common library among models in the pipeline category."
+
+      - name: total_models
+        description: "Number of distinct models in the pipeline category."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: total_downloads
+        description: "Combined downloads for models in the pipeline category."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: total_likes
+        description: "Combined likes for models in the pipeline category."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: avg_downloads_per_model
+        description: "Average downloads per model in the pipeline category."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: avg_likes_per_model
+        description: "Average likes per model in the pipeline category."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: market_share_percentage
+        description: "Percentage of models represented by the pipeline category."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 100
+
+      - name: rank_by_downloads
+        description: "Rank of the pipeline category by combined downloads."
+        tests:
+          - not_null
+          - unique
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+  - name: mart_author_leaderboard
+    description: "Author-level model counts, engagement metrics, and rankings."
+    columns:
+      - name: pk_author_leaderboard_id
+        description: "Surrogate primary key generated from the author name."
+        tests:
+          - not_null
+          - unique
+
+      - name: author
+        description: "Name of the user or organization that owns the models."
+        tests:
+          - not_null
+          - unique
+
+      - name: total_models
+        description: "Number of distinct models owned by the author."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: total_downloads
+        description: "Combined downloads across the author's models."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: total_likes
+        description: "Combined likes across the author's models."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: avg_downloads_per_model
+        description: "Average downloads per model for the author."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: avg_likes_per_model
+        description: "Average likes per model for the author."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: first_model_created_at
+        description: "Creation timestamp of the author's earliest model."
+        tests:
+          - not_null
+
+      - name: last_model_created_at
+        description: "Creation timestamp of the author's most recent model."
+        tests:
+          - not_null
+
+      - name: rank_by_downloads
+        description: "Author ranking by combined model downloads."
+        tests:
+          - not_null
+          - unique
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: rank_by_likes
+        description: "Author ranking by combined model likes."
+        tests:
+          - not_null
+          - unique
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0

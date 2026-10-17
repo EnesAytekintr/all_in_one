@@ -1,0 +1,18 @@
+models:
+  - name: dim_author
+    description: "One row per model author, with a generated surrogate key."
+    tests:
+      - dbt_utils.fewer_rows_than:
+          arguments:
+            compare_model: ref('stg_models')
+    columns:
+      - name: pk_author_id
+        description: "Surrogate primary key generated from the author name."
+        tests:
+          - not_null
+          - unique
+      - name: author
+        description: "Name of the user or organization that owns the models."
+        tests:
+          - not_null
+          - unique

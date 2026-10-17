@@ -31,3 +31,35 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   hf_models:
+    +materialized: view
+
+    staging:
+      +tags: ["stg"]
+    
+    intermediate:
+      +tags: ["int"]
+    
+    marts:
+      +materialized: table
+      +tags: ["mrts"]
+
+      dimension:
+        +tags: ["dim"]
+      
+      fact:
+        +tags: ["fct"]
+        +materialized: incremental
+        +unique_key: pk_model_version_id
+        +on_schema_change: sync_all_columns
+      
+      mart:
+        +tags: ["mrt"]
+
+snapshots:
+  hf_models:
+    +target_schema: snapshots
+    +tags: ["snp"]
+    +strategy: timestamp
+    +invalidates_hard_deletes: true
+    +unique_key: id
+    +updated_at: last_modified

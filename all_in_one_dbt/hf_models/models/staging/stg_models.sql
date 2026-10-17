@@ -1,15 +1,5 @@
 WITH source AS (
-    SELECT * FROM {{ source('hf_models', 'hf_models_raw') }}
-),
-
-deduped AS (
-    SELECT
-        *,
-        ROW_NUMBER() OVER (
-            PARTITION BY id 
-            ORDER BY downloads DESC NULLS LAST
-        ) AS row_num
-    FROM source
+    SELECT * FROM {{ ref('scd_hf_models_snapshot') }}
 ),
 
 renamed_and_casted AS (
@@ -27,10 +17,13 @@ renamed_and_casted AS (
         CAST(language AS TEXT) AS language,
         CAST(datasets AS TEXT) AS datasets,
         CAST(tags AS TEXT) AS tags,
-        CAST(NULLIF(created_at, 'None') AS TIMESTAMP) AS created_at,
-        CAST(NULLIF(last_modified, 'None') AS TIMESTAMP) AS last_modified
-    FROM deduped
-    WHERE row_num = 1
+        CAST(created_at AS TIMESTAMP) AS created_at,
+        CAST(last_modified AS TIMESTAMP) AS last_modified,
+        dbt_scd_id,
+        dbt_updated_at,
+        dbt_valid_from,
+        dbt_valid_to
+    FROM source
 )
 
 SELECT * FROM renamed_and_casted

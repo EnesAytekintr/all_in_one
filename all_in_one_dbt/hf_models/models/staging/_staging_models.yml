@@ -24,28 +24,32 @@ models:
         tests:
           - not_null
           - value_greater_than_or_equal_to:
-              min_value: 0
+              arguments:
+                value: 0
 
       - name: likes
         description: "Number of likes, defaulting to zero when missing."
         tests:
           - not_null
           - value_greater_than_or_equal_to:
-              min_value: 0
+              arguments:
+                value: 0
 
       - name: is_private
         description: "Whether the model is private, defaulting to false when missing."
         tests:
           - not_null
           - accepted_values:
-              values: [true, false]
+              arguments:
+                values: [true, false]
 
       - name: gated_status
         description: "Access-gating status of the model."
         tests:
           - not_null
           - accepted_values:
-              values: [None, "auto", "False", "manual"]
+              arguments:
+                values: [None, "auto", "False", "manual"]
 
       - name: license
         description: "License associated with the model."

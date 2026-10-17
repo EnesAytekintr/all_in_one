@@ -1,0 +1,82 @@
+models:
+  - name: fct_model_metrics
+    description: "Model-level metrics and descriptive attributes, with generated model and author keys."
+    tests:
+      - dbt_utils.equal_rowcount:
+          arguments:
+            compare_model: ref('stg_models')
+    columns:
+      - name: pk_model_version_id
+        description: "Surrogate primary key generated from the model identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: model_id
+        description: "Natural identifier of the Hugging Face model."
+        tests:
+          - not_null
+          - unique
+
+      - name: fk_author_id
+        description: "Surrogate key of the model author."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_author')
+                field: pk_author_id
+
+      - name: downloads
+        description: "Number of model downloads."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: likes
+        description: "Number of model likes."
+        tests:
+          - not_null
+          - value_greater_than_or_equal_to:
+              arguments:
+                value: 0
+
+      - name: pipeline_tag
+        description: "Task category associated with the model."
+
+      - name: library_name
+        description: "Library used by the model."
+
+      - name: license
+        description: "License associated with the model."
+
+      - name: base_model
+        description: "Base model from which this model was derived, when available."
+
+      - name: gated_status
+        description: "Access-gating status of the model."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [None, "auto", "False", "manual"]
+
+      - name: is_private
+        description: "Whether the model is private."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: created_at
+        description: "Timestamp when the model was created."
+        tests:
+          - not_null
+
+      - name: last_modified
+        description: "Timestamp when the model was last modified."
+        tests:
+          - not_null
