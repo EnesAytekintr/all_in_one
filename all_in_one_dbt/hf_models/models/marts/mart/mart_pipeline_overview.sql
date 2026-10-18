@@ -5,7 +5,7 @@ WITH fct_models AS (
         library_name,
         downloads,
         likes
-    FROM {{ ref('fct_model_metrics') }}
+    FROM {{ ref('fct_model_metrics', version=1) }}
     WHERE pipeline_tag IS NOT NULL AND is_current = TRUE
 ),
 

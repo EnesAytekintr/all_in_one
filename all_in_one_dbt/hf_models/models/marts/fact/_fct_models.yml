@@ -1,6 +1,12 @@
 models:
   - name: fct_model_metrics
     description: "Model-level metrics and descriptive attributes, with generated model and author keys."
+    versions:
+      - v: 1
+        description: "Initial version of the fct_model_metrics model."
+        defined_in: marts/fact/fct_model_metrics.sql
+    latest_version: 1
+    
     tests:
       - dbt_utils.equal_rowcount:
           arguments:

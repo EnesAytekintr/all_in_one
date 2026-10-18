@@ -51,9 +51,13 @@ models:
         +materialized: incremental
         +unique_key: pk_model_version_id
         +on_schema_change: sync_all_columns
+        +event_time: "created_at"
       
       mart:
         +tags: ["mrt"]
+        +event_time: "created_at"
+        +begin: 2022-03-02
+        +batch_size: month
 
 snapshots:
   hf_models:

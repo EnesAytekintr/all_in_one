@@ -5,7 +5,7 @@ WITH fct_models AS (
         gated_status,
         downloads,
         likes
-    FROM {{ ref('fct_model_metrics') }}
+    FROM {{ ref('fct_model_metrics', version=1) }}
     WHERE license IS NOT NULL AND is_current = TRUE
 ),
 

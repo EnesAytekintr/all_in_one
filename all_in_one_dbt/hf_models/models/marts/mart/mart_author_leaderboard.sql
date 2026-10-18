@@ -5,14 +5,14 @@ WITH fct_models AS (
         downloads,
         likes,
         created_at
-    FROM {{ ref('fct_model_metrics') }} 
+    FROM {{ ref('fct_model_metrics', version=1) }} 
     WHERE is_current = TRUE
 ),
 dim_author AS (
     SELECT
         {{ dbt_utils.generate_surrogate_key(['author']) }} AS pk_author_id,
         author
-    FROM {{ ref('dim_author') }}
+    FROM {{ ref('dim_author', version=1) }}
     WHERE author IS NOT NULL
 ),
 aggregated AS (

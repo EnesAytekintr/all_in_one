@@ -1,7 +1,7 @@
 WITH source AS (
     SELECT
         author
-    FROM {{ ref('stg_models') }}
+    FROM {{ ref('stg_models', version=1) }}
     WHERE author IS NOT NULL
 ),
 

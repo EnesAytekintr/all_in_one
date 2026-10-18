@@ -1,6 +1,12 @@
 models:
   - name: stg_models
     description: "Cleaned and deduplicated Hugging Face model metadata."
+    versions:
+      - v: 1
+        description: "Initial version of the stg_models model."
+        defined_in: staging/stg_models.sql
+    latest_version: 1
+    
     columns:
       - name: model_id
         description: "Unique identifier of the Hugging Face model."

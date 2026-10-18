@@ -2,7 +2,7 @@ WITH unnested AS (
     SELECT
         model_id,
         TRIM(BOTH '[]'' ' FROM UNNEST(STRING_TO_ARRAY(language, ','))) AS language
-    FROM {{ ref('stg_models') }}
+    FROM {{ ref('stg_models', version=1) }}
     WHERE language IS NOT NULL AND language != ''
 ),
 

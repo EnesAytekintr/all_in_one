@@ -1,0 +1,78 @@
+models:
+  - name: int_model_dataset
+    description: "One row per dataset associated with a Hugging Face model."
+    versions:
+      - v: 1
+        description: "Initial version of the int_model_dataset model."
+        defined_in: intermediate/int_model_dataset.sql
+    latest_version: 1
+
+    columns:
+      - name: pk_model_datasets_id
+        description: "Surrogate key generated from the model identifier and dataset."
+        tests:
+          - not_null
+          - unique
+
+      - name: model_id
+        description: "Identifier of the Hugging Face model associated with the dataset."
+        tests:
+          - not_null
+          - unique
+
+      - name: dataset
+        description: "Dataset name parsed from the model metadata."
+        tests:
+          - not_null
+
+  - name: int_model_language
+    description: "One row per language associated with a Hugging Face model."
+    versions:
+      - v: 1
+        description: "Initial version of the int_model_language model."
+        defined_in: intermediate/int_model_language.sql
+    latest_version: 1
+
+    columns:
+      - name: pk_model_language_id
+        description: "Surrogate key generated from the model identifier and language."
+        tests:
+          - not_null
+          - unique
+
+      - name: model_id
+        description: "Identifier of the Hugging Face model associated with the language."
+        tests:
+          - not_null
+          - unique
+
+      - name: language
+        description: "Language parsed from the model metadata."
+        tests:
+          - not_null
+
+  - name: int_model_tags
+    description: "One row per tag associated with a Hugging Face model."
+    versions:
+      - v: 1
+        description: "Initial version of the int_model_tags model."
+        defined_in: intermediate/int_model_tags.sql
+    latest_version: 1
+    
+    columns:
+      - name: pk_model_tag_id
+        description: "Surrogate key generated from the model identifier and tag."
+        tests:
+          - not_null
+          - unique
+
+      - name: model_id
+        description: "Identifier of the Hugging Face model associated with the tag."
+        tests:
+          - not_null
+          - unique
+
+      - name: tag
+        description: "Tag parsed from the model metadata."
+        tests:
+          - not_null

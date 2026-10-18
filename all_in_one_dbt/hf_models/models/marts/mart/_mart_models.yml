@@ -1,6 +1,12 @@
 models:
   - name: mart_tag_popularity
     description: "Aggregated model usage and engagement metrics for each tag."
+    versions:
+      - v: 1
+        description: "Initial version of the mart_tag_popularity model."
+        defined_in: marts/mart/mart_tag_popularity.sql
+    latest_version: 1
+
     columns:
       - name: pk_tag_popularity_id
         description: "Surrogate primary key generated from the tag."
@@ -66,6 +72,12 @@ models:
 
   - name: mart_license_distribuiton
     description: "Model counts, engagement, and gated access metrics grouped by license."
+    versions:
+      - v: 1
+        description: "Initial version of the mart_license_distribuiton model."
+        defined_in: marts/mart/mart_license_distribuiton.sql
+    latest_version: 1
+
     columns:
       - name: pk_license_distribution_id
         description: "Surrogate primary key generated from the license."
@@ -147,6 +159,12 @@ models:
 
   - name: mart_pipeline_overview
     description: "Model counts and engagement metrics grouped by pipeline category."
+    versions:
+      - v: 1
+        description: "Initial version of the mart_pipeline_overview model."
+        defined_in: marts/mart/mart_pipeline_overview.sql
+    latest_version: 1
+
     columns:
       - name: pk_pipeline_overview_id
         description: "Surrogate primary key generated from the pipeline tag."
@@ -223,6 +241,11 @@ models:
 
   - name: mart_author_leaderboard
     description: "Author-level model counts, engagement metrics, and rankings."
+    versions:
+      - v: 1
+        description: "Initial version of the mart_author_leaderboard model."
+        defined_in: marts/mart/mart_author_leaderboard.sql
+    latest_version: 1
     columns:
       - name: pk_author_leaderboard_id
         description: "Surrogate primary key generated from the author name."

@@ -2,7 +2,7 @@ WITH unnested AS (
     SELECT
         model_id,
         TRIM(BOTH '[]'' ' FROM UNNEST(STRING_TO_ARRAY(tags, ','))) AS tag
-    FROM {{ ref('stg_models') }}
+    FROM {{ ref('stg_models', version=1) }}
     WHERE tags IS NOT NULL AND tags != ''
 ),
 

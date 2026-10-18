@@ -1,6 +1,12 @@
 models:
   - name: dim_author
     description: "One row per model author, with a generated surrogate key."
+    versions:
+      - v: 1
+        description: "Initial version of the dim_author model."
+        defined_in: marts/dimension/dim_author.sql
+        
+    latest_version: 1
     tests:
       - dbt_utils.fewer_rows_than:
           arguments:

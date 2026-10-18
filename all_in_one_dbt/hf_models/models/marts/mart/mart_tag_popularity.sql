@@ -3,7 +3,7 @@ WITH fct_models AS (
         model_id,
         downloads,
         likes
-    FROM {{ ref('fct_model_metrics') }}
+    FROM {{ ref('fct_model_metrics', v=1) }}
     WHERE pipeline_tag IS NOT NULL AND is_current = TRUE
 ),
 
@@ -11,7 +11,7 @@ int_model_tags AS (
     SELECT
         model_id,
         tag
-    FROM {{ ref('int_model_tags') }}
+    FROM {{ ref('int_model_tags', version=1) }}
     WHERE tag IS NOT NULL AND tag != ''
 ),
 

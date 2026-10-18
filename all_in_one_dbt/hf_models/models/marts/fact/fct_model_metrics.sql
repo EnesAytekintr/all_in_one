@@ -20,7 +20,7 @@ WITH models  AS (
 	dbt_updated_at,
 	dbt_valid_from,
 	dbt_valid_to
-    FROM {{ ref('stg_models') }}
+    FROM {{ ref('stg_models', version=1) }}
 	{% if is_incremental() %}
 	WHERE dbt_updated_at > (SELECT MAX(dbt_updated_at) FROM {{ this }})
 	{% endif %}
