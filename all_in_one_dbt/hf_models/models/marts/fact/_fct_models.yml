@@ -22,7 +22,6 @@ models:
         description: "Natural identifier of the Hugging Face model."
         tests:
           - not_null
-          - unique
 
       - name: fk_author_id
         description: "Surrogate key of the model author."

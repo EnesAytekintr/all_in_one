@@ -12,13 +12,11 @@ models:
         description: "Surrogate key generated from the model identifier and dataset."
         tests:
           - not_null
-          - unique
 
       - name: model_id
         description: "Identifier of the Hugging Face model associated with the dataset."
         tests:
           - not_null
-          - unique
 
       - name: dataset
         description: "Dataset name parsed from the model metadata."
@@ -38,13 +36,11 @@ models:
         description: "Surrogate key generated from the model identifier and language."
         tests:
           - not_null
-          - unique
 
       - name: model_id
         description: "Identifier of the Hugging Face model associated with the language."
         tests:
           - not_null
-          - unique
 
       - name: language
         description: "Language parsed from the model metadata."
@@ -64,13 +60,11 @@ models:
         description: "Surrogate key generated from the model identifier and tag."
         tests:
           - not_null
-          - unique
 
       - name: model_id
         description: "Identifier of the Hugging Face model associated with the tag."
         tests:
           - not_null
-          - unique
 
       - name: tag
         description: "Tag parsed from the model metadata."

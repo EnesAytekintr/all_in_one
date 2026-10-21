@@ -37,6 +37,7 @@ models:
       +tags: ["stg"]
     
     intermediate:
+      +materialized: table
       +tags: ["int"]
     
     marts:

@@ -70,12 +70,12 @@ models:
               arguments:
                 value: 0
 
-  - name: mart_license_distribuiton
+  - name: mart_license_distribution
     description: "Model counts, engagement, and gated access metrics grouped by license."
     versions:
       - v: 1
-        description: "Initial version of the mart_license_distribuiton model."
-        defined_in: marts/mart/mart_license_distribuiton.sql
+        description: "Initial version of the mart_license_distribution model."
+        defined_in: marts/mart/mart_license_distribution.sql
     latest_version: 1
 
     columns:

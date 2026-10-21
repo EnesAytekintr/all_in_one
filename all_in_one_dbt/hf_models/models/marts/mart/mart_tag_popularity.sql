@@ -18,7 +18,7 @@ int_model_tags AS (
 aggregated AS (
     SELECT
         int_model_tags.tag AS tag,
-        COUNT(DISTINCT fct_models.model_id) AS total_models_using_tag,
+        COUNT(*) AS total_models_using_tag,
         SUM(fct_models.downloads) AS total_downloads,
         SUM(fct_models.likes) AS total_tag_likes,
         ROUND(AVG(fct_models.downloads), 2) AS avg_downloads_per_model
