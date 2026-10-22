@@ -1,12 +1,3 @@
-{{
-    config(
-        indexes=[
-            {'columns': ['model_id']},
-            {'columns': ['tag']}
-        ]
-    )
-}}
-
 WITH unnested AS (
     SELECT
         model_id,

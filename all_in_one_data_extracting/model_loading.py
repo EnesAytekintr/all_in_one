@@ -5,9 +5,9 @@ import os
 
 load_dotenv()
 
-df = pd.read_csv(f"{os.getenv('CSV_PATH', 'all_in_one_data_extracting/model_data/models.csv')}")
+df = pd.read_csv(f"{os.getenv('CSV_PATH', 'all_in_one_data_extracting/model_data/model.csv')}")
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:postgres@localhost:5432/hf_models_db")
+DATABASE_URL = os.getenv("SYNC_DATABASE_URL", "postgresql+psycopg2://postgres:postgres@localhost:5432/hf_models_db")
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "50000"))
 
 engine = create_engine(url=DATABASE_URL)

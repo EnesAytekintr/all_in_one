@@ -1,0 +1,51 @@
+# Dagster Çekirdek ve Web Bileşenleri
+dagster==1.13.26
+dagster-webserver==1.13.26
+dagster-dbt==0.29.26
+dagster-graphql==1.13.26
+dagster-pipes==1.13.26
+dagster-shared==1.13.26
+
+# dbt ve Postgres Bileşenleri
+dbt-core==1.12.6
+dbt-postgres==1.11.0
+dbt-adapters==1.24.5
+dbt-common==1.39.0
+dbt-extractor==0.6.0
+sqlparse==0.6.0
+sqlglot==30.23.0
+Jinja2==3.1.6
+MarkupSafe==3.0.4
+
+# Data Extraction & Loading (Hugging Face -> Postgres)
+huggingface_hub==2.2.0
+psycopg2-binary==2.9.13
+pandas==3.0.6
+numpy==2.5.4
+requests==2.34.2
+urllib3==2.8.0
+tqdm==4.70.1
+python-dotenv==1.2.4
+
+# Git & Dosya Senkronizasyonu
+GitPython==3.2.1
+gitdb==4.0.12
+filelock==4.2.0
+fsspec==2026.9.0
+watchdog==6.0.0
+
+# Ağ ve İletişim (gRPC & GraphQL)
+grpcio==1.84.0
+grpcio-health-checking==1.81.1
+protobuf==6.33.6
+graphene==3.4.3
+graphql-core==3.2.13
+graphql-relay==3.2.0
+
+# CLI & Loglama Formatı
+click==8.5.0
+rich==15.0.0
+coloredlogs==14.0
+humanfriendly==10.0
+colorama==0.4.6
+typing_extensions==4.16.0

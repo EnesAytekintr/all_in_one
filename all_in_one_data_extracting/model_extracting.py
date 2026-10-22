@@ -1,5 +1,5 @@
 from huggingface_hub import HfApi
-import logging, json, csv, os
+import logging, csv, os
 from dotenv import load_dotenv
 from tqdm import tqdm
 
@@ -34,16 +34,27 @@ TOKEN = os.getenv("TOKEN")
 
 api = HfApi(token=TOKEN)
 
-def model_to_record(limit:int | None):
-
+def model_to_record(limit: int | None):
     models_gen = api.list_models(expand=EXPAND, sort="downloads")
 
-    for i in range(limit):
-        model = next(models_gen)
+    for _ in range(limit) if limit else iter(int, 1):
+        try:
+            model = next(models_gen)
+        except StopIteration:
+            break
 
         card = getattr(model, "card_data", None)
 
-        yield  {
+        tags = model.tags or []
+        tags_str = ":".join(tags) if isinstance(tags, list) else str(tags)
+        
+        language = getattr(card, "language", None)
+        lang_str = ":".join(language) if isinstance(language, list) else language
+
+        datasets = getattr(card, "datasets", None)
+        data_str = ":".join(datasets) if isinstance(datasets, list) else datasets
+
+        yield {
             "id": model.id,
             "author": getattr(model, "author", None),
             "created_at": str(getattr(model, "created_at", None)),
@@ -54,97 +65,61 @@ def model_to_record(limit:int | None):
             
             "pipeline_tag": getattr(model, "pipeline_tag", None),
             "library_name": getattr(model, "library_name", None),
-            "gated": getattr(model, "gated", False),
+            "gated": getattr(model, "gated", "false"),
             "private": getattr(model, "private", False),
             
             "license": getattr(card, "license", None) if card else None,
             "base_model": getattr(card, "base_model", None) if card else None,
-            "language": getattr(card, "language", None) if card else None,
-            "datasets": getattr(card, "datasets", None) if card else None,
+            "language": lang_str,
+            "datasets": data_str,
             
-            "tags": model.tags or [],
-            }
+            "tags": tags_str,
+        }
 
-def models_to_jsonl(jsonl_path:str | None, limit:int | None) -> int:    
+def models_to_csv(csv_path: str, limit: int | None) -> int:
+    dir_name = os.path.dirname(csv_path)
+    if dir_name:
+        os.makedirs(dir_name, exist_ok=True)
+
     row_count = 0
-
     seen: set[str] = set()
 
-    with open(jsonl_path, "w", encoding="utf-8") as f, tqdm(
-    total=limit,
-    unit=" line",
-    unit_scale=False,
-    desc="Fetching",
-    dynamic_ncols=True
+    with open(csv_path, "w", encoding="utf-8", newline="") as c, tqdm(
+        total=limit,
+        unit=" model",
+        desc="Fetching & Streaming to CSV",
+        dynamic_ncols=True
     ) as bar:
         
-        try:
-            for model in model_to_record(limit):
+        writer = csv.DictWriter(c, extrasaction="ignore", fieldnames=FIELDS)
+        writer.writeheader()
 
-                if model.get("id") in seen:
+        try:
+            for record in model_to_record(limit):
+                model_id = record.get("id")
+                
+                if model_id in seen:
                     continue
                 
-                seen.add(model.get("id"))
-
-                f.write(json.dumps(model, ensure_ascii= False) + "\n")
-
-                if len(seen) % 10_000 == 0:
-                    f.flush()
-
-                row_count += 1
-                bar.update(1)
-
-        except Exception:
-            print(f"\n{row_count} model's metadata successfully processed.")
-            raise
-
-    return row_count
-
-def jsonl_to_csv(jsonl_path:str | None, csv_path:str | None, limit:int | None) -> int:
-
-    row_count = 0
-
-    with open(jsonl_path, "r", encoding="utf-8") as j, open(csv_path, "w", encoding="utf-8", newline="") as c, tqdm(
-    total=limit,
-    unit="model",
-    desc="Fetching",
-    dynamic_ncols=True
-    ) as bar:
-
-        try:
-            writer = csv.DictWriter(c, extrasaction="ignore", fieldnames= FIELDS)
-            writer.writeheader()
-
-            for line in j:
-
-                line = line.strip()
-
-                if not line:
-                    continue
-
-                record = json.loads(line)
-
-                if isinstance("tags", dict):
-                    record["tags"] = ";".join(record["tags"])
-
+                seen.add(model_id)
                 writer.writerow(record)
                 row_count += 1
                 bar.update(1)
 
+                if row_count % 10_000 == 0:
+                    c.flush()
+
         except Exception:
-            print(f"\n{row_count} model's metadata successfully processed.")
+            print(f"\nProgram stopped. {row_count} model successfully transformed to CSV.")
             raise
 
     return row_count
 
-
 def main():
     limit = int(os.getenv("LIMIT", 100))
-    jsonl_path = os.getenv("JSONL_PATH", "HF_models.jsonl")
-    csv_path = os.getenv("CSV_PATH", "HF_models.csv")
-    models_to_jsonl(jsonl_path= jsonl_path, limit=limit)
-    jsonl_to_csv(jsonl_path=jsonl_path, csv_path= csv_path, limit= limit)
+    csv_path = os.getenv("CSV_PATH", "all_in_one_data_extracting/model_data/model.csv")
 
+    models_to_csv(csv_path=csv_path, limit=limit)
 
 if __name__ == "__main__":
     main()

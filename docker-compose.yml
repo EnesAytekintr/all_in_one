@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: hf_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-hf_models_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - hf_net
+
+  orchestrator:
+    build:
+      context: ./all_in_one_orchestration
+      dockerfile: Dockerfile
+    container_name: hf_dagster_service
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-hf_models_db}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+    depends_on:
+      - db
+    volumes:
+      - ./all_in_one_dbt:/app/all_in_one_dbt
+      - ./all_in_one_data_extracting:/app/all_in_one_data_extracting
+    networks:
+      - hf_net
+
+  api:
+    build:
+      context: ./all_in_one_api
+      dockerfile: Dockerfile
+    container_name: hf_fastapi_service
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - ASYNC_DATABASE_URL=postgresql+asyncpg://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-hf_models_db}
+    depends_on:
+      - db
+    volumes:
+      - ./all_in_one_dbt:/app/all_in_one_dbt:ro
+    networks:
+      - hf_net
+
+volumes:
+  pgdata:
+
+networks:
+  hf_net:
+    driver: bridge

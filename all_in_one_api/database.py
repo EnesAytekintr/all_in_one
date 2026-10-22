@@ -8,7 +8,7 @@ import os
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:postgres@localhost:5432/hf_models_db")
+DATABASE_URL = os.getenv("ASYNC_DATABASE_URL", "postgresql+asyncpg://postgres:postgres@localhost:5432/hf_models_db")
 IS_DEBUG = os.getenv("IS_DEBUG", "False").lower() in ("true", "1", "t")
 
 engine = create_async_engine(
