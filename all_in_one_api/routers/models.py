@@ -100,7 +100,7 @@ async def get_top_likes(
     return result
 
 @models_router.get(
-        "/{model_id}", 
+        "/{model_id:path}", 
         response_model=ModelMetricsResponse, 
         status_code=status.HTTP_200_OK)
 @limiter.limit("30/minute")

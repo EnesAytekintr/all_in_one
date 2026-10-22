@@ -11,6 +11,7 @@ __pycache__/
 # --- dbt ---
 target/
 dbt_packages/
+package-lock.concurrent-update-lock
 logs/
 *.log
 

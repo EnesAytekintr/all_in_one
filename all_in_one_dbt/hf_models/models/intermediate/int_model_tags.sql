@@ -9,7 +9,7 @@
 
 WITH unnested AS (
     SELECT
-        SPLIT_PART(model_id, '/', 2) AS model_id,
+        model_id,
         TRIM(BOTH '[]'' ' FROM UNNEST(STRING_TO_ARRAY(tags, ','))) AS tag
     FROM {{ ref('stg_models', version=1) }}
     WHERE tags IS NOT NULL AND tags != ''

@@ -37,14 +37,14 @@ async def get_author_leaderboard(
 
 
 @authors_router.get(
-	"/{author_name}/models",
+	"/{author}/models",
 	response_model=list[AuthorModelResponse],
 	status_code=status.HTTP_200_OK,
 )
 @limiter.limit("30/minute")
 async def get_author_models(
 	request:Request,
-	author_name: str,
+	author: str,
 	db: db_dependency,
 	limit: int = Query(default=100, ge=1, le=1000),
 	offset: int = Query(default=0, ge=0),
@@ -52,7 +52,7 @@ async def get_author_models(
 	query = (
 		select(ModelMetrics)
 		.join(Author, ModelMetrics.fk_author_id == Author.pk_author_id)
-		.where(Author.author == author_name, ModelMetrics.is_current == True)
+		.where(Author.author == author, ModelMetrics.is_current == True)
 		.order_by(ModelMetrics.downloads.desc(), ModelMetrics.model_id)
 		.offset(offset)
 		.limit(limit)

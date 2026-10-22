@@ -94,9 +94,9 @@ def models_to_jsonl(jsonl_path:str | None, limit:int | None) -> int:
                 row_count += 1
                 bar.update(1)
 
-        except:
+        except Exception:
             print(f"\n{row_count} model's metadata successfully processed.")
-            os._exit(0)
+            raise
 
     return row_count
 
@@ -131,9 +131,9 @@ def jsonl_to_csv(jsonl_path:str | None, csv_path:str | None, limit:int | None) -
                 row_count += 1
                 bar.update(1)
 
-        except:
+        except Exception:
             print(f"\n{row_count} model's metadata successfully processed.")
-            os._exit(0)
+            raise
 
     return row_count
 
