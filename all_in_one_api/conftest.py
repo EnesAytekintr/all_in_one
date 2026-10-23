@@ -20,11 +20,12 @@ import pytest_asyncio
 from main import app
 from datetime import datetime
 
-TEST_DB_URL = "sqlite+aiosqlite:///all_in_one_api/:memory:"
+TEST_DB_URL = "sqlite+aiosqlite:///:memory:"
 
 test_engine = create_async_engine(
     url=TEST_DB_URL,
-    echo= False)
+    echo= False
+    )
 
 TestingSessionLocal = async_sessionmaker(
     class_=AsyncSession,
