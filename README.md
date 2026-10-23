@@ -134,7 +134,7 @@ cd all_in_one
 cp .env.example .env
 
 # 2. Instantiate the dbt connection profile
-cp all_in_one_dbt/profiles_example.yml all_in_one_dbt/profiles.yml
+cp all_in_one_dbt/hf_models/profiles_example.yml all_in_one_dbt/hf_models/profiles.yml
 ```
 
 Ensure your root `.env` contains the required keys:
