@@ -183,14 +183,12 @@ docker compose ps
 
 ### 1. End-to-End Execution via Dagster UI
 1. Navigate to `http://localhost:3000`.
-2. Inspect the asset lineage:
-   $$\text{hf\_models\_raw} \longrightarrow \text{scd\_hf\_models\_snapshot} \longrightarrow \text{stg\_models} \longrightarrow \text{dimensions / facts} \longrightarrow \text{marts}$$
-3. Trigger the full pipeline by clicking **Materialize all** or launching `all_pipeline_job`.
-4. The orchestrator triggers:
+2. Trigger the full pipeline by clicking **Materialize all** or launching `all_pipeline_job`.
+3. The orchestrator triggers:
    * `model_extracting.py` extracts metadata and streams rows into `model.csv`.
    * `psycopg2` executes a `TRUNCATE` and binary `COPY` into `raw.models_raw`.
    * `dbt build` executes snapshots, incremental models, and analytical marts.
-5. The scheduled job (`weekly_schedule`) runs automatically every Saturday at 00:00 UTC.
+4. The scheduled job (`weekly_schedule`) runs automatically every Saturday at 00:00 UTC.
 
 ### 2. Manual CLI Extraction (Optional)
 To execute the extraction script manually inside the orchestrator container:
