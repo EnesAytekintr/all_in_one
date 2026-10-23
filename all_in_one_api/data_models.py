@@ -24,10 +24,10 @@ with open(fct_path, "r", encoding="utf-8") as f, \
     fct_model_version = facts_by_name.get("fct_model_metrics", {}).get("latest_version")
     dim_model_version = dimensions_by_name.get("dim_author", {}).get("latest_version")
 
-    tag_popularity_version = marts_by_name.get("mart_tag_popularity", {}).get("latest_version")
-    license_distribution_version = marts_by_name.get("mart_license_distribution", {}).get("latest_version")
-    pipeline_overview_version = marts_by_name.get("mart_pipeline_overview", {}).get("latest_version")
-    author_leaderboard_version = marts_by_name.get("mart_author_leaderboard", {}).get("latest_version")
+    tag_popularity_version = marts_by_name.get("mart_tag_popularity", {}).get("latest_version", "1")
+    license_distribution_version = marts_by_name.get("mart_license_distribution", {}).get("latest_version", "1")
+    pipeline_overview_version = marts_by_name.get("mart_pipeline_overview", {}).get("latest_version", "1")
+    author_leaderboard_version = marts_by_name.get("mart_author_leaderboard", {}).get("latest_version", "1")
 
 class ModelMetrics(Base):
     __tablename__ = f"fct_model_metrics_v{fct_model_version}"
