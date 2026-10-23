@@ -35,7 +35,7 @@ services:
       - TOKEN=${TOKEN}
       - LIMIT=${LIMIT:-1000}
       - CSV_PATH=/app/all_in_one_data_extracting/model_data/model.csv
-      - DBT_PROFILES_DIR=/app/all_in_one_dbt
+      - DBT_PROFILES_DIR=/app/all_in_one_dbt/hf_models
       - DAGSTER_HOME=/app/dagster_home
     depends_on:
       db:

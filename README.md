@@ -188,7 +188,7 @@ docker compose ps
    * `model_extracting.py` extracts metadata and streams rows into `model.csv`.
    * `psycopg2` executes a `TRUNCATE` and binary `COPY` into `raw.models_raw`.
    * `dbt build` executes snapshots, incremental models, and analytical marts.
-4. The scheduled job (`weekly_schedule`) runs automatically every Saturday at 00:00 UTC.
+4. The scheduled job (`weekly_schedule`) set to run every Saturday at 00:00 UTC but in default it is passive.
 
 ### 2. Manual CLI Extraction (Optional)
 To execute the extraction script manually inside the orchestrator container:
