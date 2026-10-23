@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:16-alpine
@@ -10,9 +8,13 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
       POSTGRES_DB: ${DB_NAME:-hf_models_db}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 5s
+      retries: 5
     networks:
       - hf_net
 
@@ -31,7 +33,8 @@ services:
       - DB_USER=${DB_USER:-postgres}
       - DB_PASSWORD=${DB_PASSWORD:-postgres}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ./all_in_one_dbt:/app/all_in_one_dbt
       - ./all_in_one_data_extracting:/app/all_in_one_data_extracting
@@ -51,7 +54,8 @@ services:
       - DB_PORT=5432
       - ASYNC_DATABASE_URL=postgresql+asyncpg://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-hf_models_db}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ./all_in_one_dbt:/app/all_in_one_dbt:ro
     networks:

@@ -1,0 +1,13 @@
+hf_models:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DB_HOST', 'localhost') }}"
+      user: "{{ env_var('DB_USER', 'postgres') }}"
+      password: "{{ env_var('DB_PASSWORD', 'postgres') }}"
+      port: "{{ env_var('DB_PORT', 5432) | as_number }}"
+      dbname: "{{ env_var('DB_NAME', 'hf_models_db') }}"
+      schema: dev
+      #sslmode: require # If your database in cloud this is necessery
+      threads: 4
