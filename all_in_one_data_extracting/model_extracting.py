@@ -46,13 +46,13 @@ def model_to_record(limit: int | None):
         card = getattr(model, "card_data", None)
 
         tags = model.tags or []
-        tags_str = ":".join(tags) if isinstance(tags, list) else str(tags)
+        tags_str = ",".join(tags) if isinstance(tags, list) else str(tags)
         
         language = getattr(card, "language", None)
-        lang_str = ":".join(language) if isinstance(language, list) else language
+        lang_str = ",".join(language) if isinstance(language, list) else language
 
         datasets = getattr(card, "datasets", None)
-        data_str = ":".join(datasets) if isinstance(datasets, list) else datasets
+        data_str = ",".join(datasets) if isinstance(datasets, list) else datasets
 
         yield {
             "id": model.id,

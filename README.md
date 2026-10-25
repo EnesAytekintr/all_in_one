@@ -94,10 +94,10 @@ all_in_one/
 │   ├── hf_models/                     # Core dbt workspace
 │   │   ├── models/                    # Staging, intermediate, dimensions, facts, marts
 │   │   ├── snapshots/                 # SCD Type 2 snapshots
-│   │   └── dbt_project.yml            # Model configurations, materializations, tags
-│   ├── profiles.yml                   # Container database connection profile
-│   ├── profiles_example.yml           # Local template profile
-│   └── README.md                      # Transformation & star schema documentation
+│   │   │── dbt_project.yml            # Model configurations, materializations, tags
+│   │   ├── profiles.yml                   # Container database connection profile
+│   │   ├── profiles_example.yml           # Local template profile
+│   │   └── README.md                      # Transformation & star schema documentation
 ├── all_in_one_orchestration/          # Dagster Orchestration Platform
 │   ├── all_in_one_orchestration/      # Dagster module
 │   │   ├── assets.py                  # Upstream raw ingestion & dbt asset definitions
@@ -153,7 +153,7 @@ CSV_PATH=/app/all_in_one_data_extracting/model_data/model.csv
 IS_DEBUG=False
 ```
 
-> **Note on Container Networking:** When running through Docker Compose, internal service communication automatically targets the `db` service container on internal port `5432`. The external port `5433` is mapped to your host machine for external database viewers (DBeaver, pgAdmin, etc.).
+> **Note on Container Networking:** When running through Docker Compose, internal service communication automatically targets the `db` service container on internal port `5432`. The external port `5432` is mapped to your host machine for external database viewers (DBeaver, pgAdmin, etc.).
 
 ### 3. Build & Run via Docker Compose
 Start all containers in detached mode:

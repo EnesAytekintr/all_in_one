@@ -17,7 +17,7 @@ dim_author AS (
 ),
 aggregated AS (
     SELECT
-        dim_author.author AS author,
+        COALESCE(dim_author.author, 'unknown') AS author,
         COUNT(DISTINCT fct_models.model_id) AS total_models,
         SUM(fct_models.downloads) AS total_downloads,
         SUM(fct_models.likes) AS total_likes,
@@ -26,7 +26,7 @@ aggregated AS (
         MIN(fct_models.created_at) AS first_model_created_at,
         MAX(fct_models.created_at) AS last_model_created_at
     FROM fct_models
-    INNER JOIN dim_author
+    LEFT JOIN dim_author
         ON fct_models.fk_author_id = dim_author.pk_author_id
     GROUP BY dim_author.author
 ),
