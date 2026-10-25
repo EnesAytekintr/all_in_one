@@ -77,9 +77,6 @@ The architecture extracts repository metadata from the Hugging Face API using st
 
 ```text
 all_in_one/
-├── .github/
-│   └── workflows/
-│       └── ci.yml                     # Continuous integration & testing pipeline
 ├── all_in_one_api/                    # Asynchronous FastAPI Microservice
 │   ├── routers/                       # Endpoint routers (models, authors, analytics)
 │   ├── schemas/                       # Pydantic serialization models (request/response)
@@ -149,7 +146,7 @@ DB_PORT=5432
 
 # Ingestion Settings
 TOKEN=hf_your_actual_token_here
-LIMIT=50000
+LIMIT=100000
 CSV_PATH=/app/all_in_one_data_extracting/model_data/model.csv
 
 # Application Settings
@@ -173,7 +170,7 @@ docker compose ps
 
 | Service | Container Name | Port Mapping | Status Check |
 | :--- | :--- | :--- | :--- |
-| **Database** | `hf_postgres_db` | `5433:5432` | `pg_isready` healthcheck |
+| **Database** | `hf_postgres_db` | `DB_PORT:5432` | `pg_isready` healthcheck |
 | **Orchestrator**| `hf_dagster_service` | `3000:3000` | UI accessible at `localhost:3000` |
 | **API** | `hf_fastapi_service` | `8000:8000` | Docs accessible at `localhost:8000/docs` |
 

@@ -37,7 +37,7 @@ api = HfApi(token=TOKEN)
 def model_to_record(limit: int | None):
     models_gen = api.list_models(expand=EXPAND, sort="downloads")
 
-    for _ in range(limit) if limit else iter(int, 1):
+    for _ in range(limit):
         try:
             model = next(models_gen)
         except StopIteration:
@@ -57,8 +57,8 @@ def model_to_record(limit: int | None):
         yield {
             "id": model.id,
             "author": getattr(model, "author", None),
-            "created_at": str(getattr(model, "created_at", None)),
-            "last_modified": str(getattr(model, "last_modified", None)),
+            "created_at": str(getattr(model, "created_at")),
+            "last_modified": str(getattr(model, "last_modified")),
             
             "downloads": getattr(model, "downloads", 0),
             "likes": getattr(model, "likes", 0),
@@ -116,7 +116,7 @@ def models_to_csv(csv_path: str, limit: int | None) -> int:
     return row_count
 
 def main():
-    limit = int(os.getenv("LIMIT", 100))
+    limit = int(os.getenv("LIMIT", 100000))
     csv_path = os.getenv("CSV_PATH", "all_in_one_data_extracting/model_data/model.csv")
 
     models_to_csv(csv_path=csv_path, limit=limit)

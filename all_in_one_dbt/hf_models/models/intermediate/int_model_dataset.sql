@@ -1,7 +1,7 @@
 WITH unnested AS (
     SELECT
         model_id,
-        TRIM(BOTH '[]'' ' FROM UNNEST(STRING_TO_ARRAY(datasets, ','))) AS dataset
+        TRIM(BOTH '[]'' ' FROM UNNEST(STRING_TO_ARRAY(datasets, ':'))) AS dataset
     FROM {{ ref('stg_models', version=1) }}
     WHERE datasets IS NOT NULL AND datasets != ''
 ),

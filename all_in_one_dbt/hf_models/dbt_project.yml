@@ -53,6 +53,9 @@ models:
         +unique_key: pk_model_version_id
         +on_schema_change: sync_all_columns
         +event_time: "created_at"
+        +indexes:
+          - columns: ['is_current', 'downloads']
+            type: btree
       
       mart:
         +tags: ["mrt"]

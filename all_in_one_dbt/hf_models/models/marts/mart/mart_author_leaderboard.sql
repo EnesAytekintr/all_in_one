@@ -10,7 +10,7 @@ WITH fct_models AS (
 ),
 dim_author AS (
     SELECT
-        {{ dbt_utils.generate_surrogate_key(['author']) }} AS pk_author_id,
+        pk_author_id,
         author
     FROM {{ ref('dim_author', version=1) }}
     WHERE author IS NOT NULL
